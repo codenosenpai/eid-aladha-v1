@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<meta name="theme-color" content="#0b0b17">
+<title>🌙 Album Photo — Eid Al-Adha</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Amiri:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+:root{--gold:#FFD700;--gold-light:#FFF0A0;--gold-dark:#B8960C;--dark:#0b0b17;}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{font-size:16px;scroll-behavior:smooth;}
+body{background:var(--dark);color:#fff;font-family:'Cormorant Garamond',serif;min-height:100vh;overflow-x:hidden;-webkit-font-smoothing:antialiased;}
+
+#bgCanvas{position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events:none;}
+#lLayer{position:fixed;inset:0;overflow:hidden;z-index:1;pointer-events:none;}
+#mosque{position:fixed;bottom:0;left:0;right:0;height:clamp(80px,18vh,160px);z-index:1;pointer-events:none;overflow:hidden;}
+.msq-svg{width:100%;height:100%;fill:#05050f;filter:drop-shadow(0 -3px 12px rgba(255,215,0,.12));}
+
+.lant{position:absolute;top:-90px;animation:lFloat linear infinite;}
+.ls{position:absolute;top:-22px;left:50%;transform:translateX(-50%);width:1px;height:22px;background:rgba(255,215,0,.32);}
+.lb{width:21px;height:36px;border-radius:50% 50% 42% 42%;animation:lGlow 3s ease-in-out infinite alternate;position:relative;}
+.lb::before{content:'';position:absolute;top:-7px;left:50%;transform:translateX(-50%);width:11px;height:7px;border-radius:4px 4px 0 0;background:rgba(255,215,0,.45);}
+@keyframes lFloat{0%{transform:translateY(calc(100vh + 90px));opacity:0}5%,95%{opacity:.85}100%{transform:translateY(-160px);opacity:0}}
+@keyframes lGlow{0%{opacity:.7}100%{opacity:1}}
+@keyframes twinkle{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.15;transform:scale(.55)}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
+@keyframes shake{0%,100%{transform:translateX(0)}20%,60%{transform:translateX(-7px)}40%,80%{transform:translateX(7px)}}
+
+/* ════ LOCK ════ */
+#lockScreen{display:none;position:fixed;inset:0;z-index:200;background:var(--dark);flex-direction:column;align-items:center;justify-content:center;padding:2rem 1.2rem 12vh;text-align:center;gap:1.1rem;}
+#lockScreen.on{display:flex;}
+.lock-moon{font-size:3.5rem;animation:fadeUp .5s ease both;}
+.lock-title{font-family:'Cinzel Decorative',cursive;font-weight:900;font-size:clamp(1.2rem,4.5vw,2rem);background:linear-gradient(135deg,#B8960C,#FFD700,#FFF0A0,#FFD700,#B8960C);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;animation:fadeUp .5s .1s ease both;}
+.lock-sub{font-size:clamp(.8rem,2.2vw,.95rem);color:rgba(255,255,255,.38);font-style:italic;animation:fadeUp .5s .18s ease both;}
+.lock-box{width:100%;max-width:340px;background:rgba(255,215,0,.03);border:1px solid rgba(255,215,0,.22);border-radius:16px;padding:1.5rem 1.3rem 1.3rem;backdrop-filter:blur(10px);animation:fadeUp .6s .28s ease both;}
+.lock-lbl{font-family:'Cinzel Decorative',cursive;font-size:.62rem;letter-spacing:.28em;color:var(--gold);text-transform:uppercase;margin-bottom:.9rem;}
+#galCode{width:100%;background:rgba(255,255,255,.03);border:1px solid rgba(255,215,0,.28);border-radius:10px;padding:.85rem .9rem;font-family:'Cinzel Decorative',cursive;font-size:max(16px,1rem);color:var(--gold);text-align:center;letter-spacing:.1em;text-transform:uppercase;outline:none;transition:border-color .3s,box-shadow .3s;caret-color:var(--gold);-webkit-appearance:none;}
+#galCode::placeholder{color:rgba(255,215,0,.18);font-size:.78rem;letter-spacing:.06em;}
+#galCode:focus{border-color:var(--gold);box-shadow:0 0 18px rgba(255,215,0,.1);}
+.lock-btn{width:100%;margin-top:.8rem;background:linear-gradient(135deg,#9a7a00,#FFD700,#9a7a00);border:none;border-radius:10px;padding:.9rem;font-family:'Cinzel Decorative',cursive;font-size:.82rem;color:#0b0b17;font-weight:900;letter-spacing:.1em;cursor:pointer;min-height:48px;transition:transform .2s;}
+.lock-btn:active{transform:scale(.97);}
+.lock-err{color:#ff7070;font-size:.78rem;margin-top:.55rem;min-height:1.1em;opacity:0;transition:opacity .3s;font-style:italic;}
+.lock-err.on{opacity:1;}
+.lock-hint{font-size:.68rem;color:rgba(255,255,255,.22);margin-top:.55rem;font-style:italic;line-height:1.55;}
+.lock-back{background:none;border:none;color:rgba(255,215,0,.32);font-family:'Cormorant Garamond',serif;font-size:.88rem;cursor:pointer;letter-spacing:.08em;transition:color .3s;padding:.5rem 1rem;min-height:44px;}
+.lock-back:hover{color:rgba(255,215,0,.65);}
+
+/* ════ PAGE ════ */
+.page{display:none;position:relative;z-index:10;max-width:1100px;margin:0 auto;padding:2.5rem 1.2rem 16vh;}
+.page.on{display:block;}
+.page-header{text-align:center;margin-bottom:2.6rem;animation:fadeUp .6s ease both;}
+.back-link{display:inline-flex;align-items:center;gap:.4rem;color:rgba(255,215,0,.38);font-size:.88rem;text-decoration:none;letter-spacing:.08em;transition:color .3s;margin-bottom:1.5rem;font-family:'Cormorant Garamond',serif;padding:.4rem 0;}
+.back-link:hover{color:var(--gold);}
+.page-ar{font-family:'Amiri',serif;direction:rtl;font-size:clamp(1rem,3vw,1.4rem);color:var(--gold-light);opacity:.82;margin-bottom:.4rem;}
+.page-title{font-family:'Cinzel Decorative',cursive;font-weight:900;font-size:clamp(1.4rem,5vw,2.6rem);line-height:1.1;background:linear-gradient(135deg,#B8960C,#FFD700,#FFF0A0,#FFD700,#B8960C);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;filter:drop-shadow(0 2px 8px rgba(255,215,0,.32));}
+.page-sub{font-size:clamp(.75rem,2vw,.9rem);color:rgba(255,255,255,.3);font-style:italic;letter-spacing:.04em;margin-top:.4rem;}
+.access-badge{display:inline-flex;align-items:center;gap:.4rem;margin-top:.8rem;padding:.28rem .85rem;border:1px solid rgba(255,215,0,.18);border-radius:20px;font-size:.65rem;color:rgba(255,215,0,.45);font-family:'Cinzel Decorative',cursive;letter-spacing:.1em;}
+.orn-sep{display:flex;align-items:center;gap:.8rem;margin:2.4rem 0 1.5rem;}
+.orn-line{flex:1;height:1px;background:linear-gradient(to right,transparent,rgba(255,215,0,.32),transparent);}
+.orn-title{font-family:'Cinzel Decorative',cursive;font-size:clamp(.7rem,2vw,.9rem);color:var(--gold);letter-spacing:.18em;white-space:nowrap;}
+.orn-star{color:var(--gold);font-size:.78rem;animation:twinkle 2.4s ease-in-out infinite;}
+
+/* ════════════════════════════════════════
+   GRILLE — supporte horizontal + vertical
+   Par défaut : carré (220px)
+   .horizontal → paysage (2 colonnes)
+   .vertical   → portrait (2 lignes)
+════════════════════════════════════════ */
+.photo-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(200px,1fr));
+  grid-auto-rows:220px;
+  gap:1rem;
+}
+.photo-card{
+  position:relative;border-radius:10px;overflow:hidden;
+  border:1px solid rgba(255,215,0,.2);
+  background:#0a0a18;
+  cursor:pointer;
+  transition:transform .28s,border-color .28s,box-shadow .28s;
+  -webkit-tap-highlight-color:transparent;
+}
+/* Photo paysage — occupe 2 colonnes */
+.photo-card.horizontal{ grid-column:span 2; }
+/* Photo portrait — occupe 2 lignes */
+.photo-card.vertical  { grid-row:span 2; }
+
+.photo-card:active{transform:scale(.97);}
+@media(hover:hover){
+  .photo-card:hover{transform:translateY(-4px) scale(1.02);border-color:rgba(255,215,0,.65);box-shadow:0 10px 36px rgba(255,215,0,.2);}
+  .photo-card:hover img{transform:scale(1.06);}
+  .photo-card:hover .photo-caption{transform:translateY(0);}
+}
+.photo-card img{width:100%;height:100%;object-fit:cover;object-position:center;display:block;transition:transform .4s ease;}
+
+/* Coins dorés */
+.pc-cn{position:absolute;width:16px;height:16px;border-color:rgba(255,215,0,.6);border-style:solid;z-index:2;pointer-events:none;}
+.pc-cn.tl{top:-1px;left:-1px;border-width:2px 0 0 2px;border-radius:3px 0 0 0;}
+.pc-cn.tr{top:-1px;right:-1px;border-width:2px 2px 0 0;border-radius:0 3px 0 0;}
+.pc-cn.bl{bottom:-1px;left:-1px;border-width:0 0 2px 2px;border-radius:0 0 0 3px;}
+.pc-cn.br{bottom:-1px;right:-1px;border-width:0 2px 2px 0;border-radius:0 0 3px 0;}
+
+/* Caption */
+.photo-caption{position:absolute;bottom:0;left:0;right:0;padding:.55rem .75rem;background:linear-gradient(to top,rgba(11,11,23,.92),transparent);font-size:.76rem;color:rgba(255,215,0,.88);font-style:italic;letter-spacing:.04em;transform:translateY(100%);transition:transform .3s;pointer-events:none;}
+
+/* ════ DIAPORAMA ════ */
+#slideshow {
+  display: none; position: fixed; inset: 0; z-index: 600;
+  background: rgba(4,4,14,.98);
+  flex-direction: column; align-items: center; justify-content: center;
+}
+#slideshow.on { display: flex; }
+#ssImg {
+  max-width: min(92vw, 860px); max-height: 74vh;
+  object-fit: contain; border-radius: 8px;
+  border: 1px solid rgba(255,215,0,.2);
+  box-shadow: 0 0 40px rgba(255,215,0,.1);
+  transition: opacity .5s ease;
+}
+#ssImg.fade { opacity: 0; }
+#ssCaption { margin-top: .7rem; font-size: .85rem; color: rgba(255,215,0,.5); font-style: italic; }
+#ssProgress {
+  display: flex; gap: .4rem; margin-top: .9rem; flex-wrap: wrap; justify-content: center;
+}
+.ss-dot {
+  width: 7px; height: 7px; border-radius: 50%;
+  background: rgba(255,215,0,.25); transition: background .3s;
+  cursor: pointer;
+}
+.ss-dot.active { background: var(--gold); }
+#ssClose {
+  position: fixed; top: .8rem; right: .8rem;
+  background: rgba(255,215,0,.1); border: 1px solid rgba(255,215,0,.28);
+  color: var(--gold); width: 44px; height: 44px; border-radius: 50%;
+  font-size: 1.1rem; cursor: pointer; display: flex; align-items: center; justify-content: center;
+}
+#ssPause {
+  position: fixed; bottom: 1.5rem; left: 50%; transform: translateX(-50%);
+  background: rgba(255,215,0,.08); border: 1px solid rgba(255,215,0,.22);
+  color: var(--gold); border-radius: 20px; padding: .5rem 1.2rem;
+  font-family: 'Cinzel Decorative', cursive; font-size: .65rem;
+  letter-spacing: .12em; cursor: pointer; min-height: 44px;
+}
+.slideshow-btn {
+  display: inline-flex; align-items: center; gap: .4rem;
+  margin-top: .8rem; padding: .6rem 1.4rem;
+  background: rgba(255,215,0,.07); border: 1px solid rgba(255,215,0,.28);
+  border-radius: 24px; color: var(--gold);
+  font-family: 'Cinzel Decorative', cursive; font-size: .62rem;
+  letter-spacing: .1em; cursor: pointer; transition: background .2s;
+  min-height: 44px;
+}
+.slideshow-btn:hover { background: rgba(255,215,0,.15); }
+#lightbox{display:none;position:fixed;inset:0;z-index:500;background:rgba(4,4,14,.97);flex-direction:column;align-items:center;justify-content:center;padding:.8rem;}
+#lightbox.on{display:flex;animation:lbIn .2s ease;}
+@keyframes lbIn{from{opacity:0;transform:scale(.96)}to{opacity:1;transform:scale(1)}}
+#lbImg{max-width:min(94vw,900px);max-height:80vh;object-fit:contain;border-radius:8px;border:1px solid rgba(255,215,0,.18);box-shadow:0 0 50px rgba(255,215,0,.1);user-select:none;-webkit-user-drag:none;}
+#lbCaption{margin-top:.7rem;font-size:.85rem;color:rgba(255,215,0,.52);font-style:italic;letter-spacing:.05em;text-align:center;}
+#lbClose{position:fixed;top:.8rem;right:.8rem;background:rgba(255,215,0,.1);border:1px solid rgba(255,215,0,.28);color:var(--gold);width:44px;height:44px;border-radius:50%;font-size:1.1rem;cursor:pointer;display:flex;align-items:center;justify-content:center;}
+#lbClose:active{background:rgba(255,215,0,.24);}
+#lbPrev,#lbNext{position:fixed;top:50%;transform:translateY(-50%);background:rgba(255,215,0,.07);border:1px solid rgba(255,215,0,.18);color:var(--gold);width:48px;height:48px;border-radius:50%;font-size:1.5rem;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:501;}
+#lbPrev{left:.5rem;}#lbNext{right:.5rem;}
+#lbPrev:active,#lbNext:active{background:rgba(255,215,0,.2);}
+
+@media(max-width:600px){
+  .photo-grid{grid-template-columns:repeat(2,1fr);grid-auto-rows:160px;}
+  .photo-card.horizontal{grid-column:span 2;}
+  .photo-card.vertical{grid-row:span 2;}
+  .page{padding:1.4rem .9rem 14vh;}
+  #lbPrev{left:.2rem;}#lbNext{right:.2rem;}
+}
+</style>
+</head>
+<body>
+
+<canvas id="bgCanvas"></canvas>
+<div id="lLayer"></div>
+<div id="mosque">
+  <svg class="msq-svg" viewBox="0 0 1440 200" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMax slice">
+    <rect x="0" y="172" width="1440" height="28" fill="#05050f"/>
+    <rect x="72" y="72" width="22" height="100" fill="#05050f"/>
+    <polygon points="72,72 83,38 94,72" fill="#05050f"/>
+    <circle cx="83" cy="37" r="6.5" fill="#05050f"/>
+    <path d="M79,29 Q83,22 87,29 Q83,25 79,29Z" fill="#FFD700" opacity=".88"/>
+    <rect x="112" y="93" width="16" height="79" fill="#05050f"/>
+    <polygon points="112,93 120,62 128,93" fill="#05050f"/>
+    <path d="M116,55 Q120,49 124,55 Q120,51 116,55Z" fill="#FFD700" opacity=".7"/>
+    <rect x="1346" y="72" width="22" height="100" fill="#05050f"/>
+    <polygon points="1346,72 1357,38 1368,72" fill="#05050f"/>
+    <circle cx="1357" cy="37" r="6.5" fill="#05050f"/>
+    <path d="M1353,29 Q1357,22 1361,29 Q1357,25 1353,29Z" fill="#FFD700" opacity=".88"/>
+    <rect x="1312" y="93" width="16" height="79" fill="#05050f"/>
+    <polygon points="1312,93 1320,62 1328,93" fill="#05050f"/>
+    <path d="M1316,55 Q1320,49 1324,55 Q1320,51 1316,55Z" fill="#FFD700" opacity=".7"/>
+    <rect x="192" y="110" width="1056" height="62" fill="#05050f"/>
+    <path d="M192,118 Q300,84 408,118" fill="#05050f"/>
+    <rect x="192" y="118" width="216" height="54" fill="#05050f"/>
+    <path d="M1032,118 Q1140,84 1248,118" fill="#05050f"/>
+    <rect x="1032" y="118" width="216" height="54" fill="#05050f"/>
+    <ellipse cx="720" cy="72" rx="168" ry="85" fill="#05050f"/>
+    <rect x="552" y="72" width="336" height="100" fill="#05050f"/>
+    <path d="M705,17 Q720,2 735,17 Q720,10 705,17Z" fill="#FFD700" opacity=".92"/>
+    <ellipse cx="448" cy="100" rx="84" ry="53" fill="#05050f"/>
+    <rect x="364" y="100" width="168" height="72" fill="#05050f"/>
+    <ellipse cx="992" cy="100" rx="84" ry="53" fill="#05050f"/>
+    <rect x="908" y="100" width="168" height="72" fill="#05050f"/>
+    <circle cx="720" cy="10" r="2.5" fill="#FFD700"><animate attributeName="opacity" values="1;.25;1" dur="3s" repeatCount="indefinite"/></circle>
+  </svg>
+</div>
+
+<!-- ══ LOCK ══ -->
+<div id="lockScreen" class="on">
+  <div class="lock-moon">📸</div>
+  <h1 class="lock-title">Album Photo Eid</h1>
+  <p class="lock-sub">Entrez le code affiché dans votre message</p>
+  <div class="lock-box">
+    <p class="lock-lbl">✦ Code d'accès ✦</p>
+    <input id="galCode" type="text" inputmode="text"
+      autocomplete="off" autocorrect="off" autocapitalize="characters"
+      spellcheck="false" maxlength="30"
+      placeholder="EID-PHOTOS-ALADHA"
+      oninput="this.value=this.value.toUpperCase()"
+      onkeydown="if(event.key==='Enter')checkGalCode()">
+    <button class="lock-btn" onclick="checkGalCode()">🌙 Accéder à l'album</button>
+    <p class="lock-err" id="galErr">Code invalide 🌙</p>
+    <p class="lock-hint">Tapez juste : PHOTOS ou FAMILLE</p>
+  </div>
+  <button class="lock-back" onclick="window.location.href='index.html'">← Retour à l'accueil</button>
+</div>
+
+<!-- ══ PAGE GALERIE ══ -->
+<div class="page" id="galPage">
+
+  <div class="page-header">
+    <a href="index.html" class="back-link">← Retour à l'accueil</a>
+    <p class="page-ar">ذكريات العيد 🌙</p>
+    <h1 class="page-title">Notre Album Eid</h1>
+    <p class="page-sub">Al-Adha 2026 — Souvenirs & moments partagés</p>
+    <span class="access-badge" id="accessBadge">🔓 Accès photos</span>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       SECTION ENFANTS — toujours visible
+       📁 photos/enfants/
+       
+       Nommage des fichiers : sans espace ni accent
+         enfants-1.jpg, enfants-2.jpg …
+
+       Classes disponibles :
+         (rien)      → carré standard
+         horizontal  → photo paysage  (2 colonnes)
+         vertical    → photo portrait (2 lignes)
+  ══════════════════════════════════════════ -->
+  <div class="orn-sep">
+    <span class="orn-line"></span><span class="orn-star">✦</span>
+    <span class="orn-title">🎈 Les Enfants</span>
+    <span class="orn-star">✦</span><span class="orn-line"></span>
+  </div>
+
+  <!-- Bouton diaporama enfants -->
+  <div style="text-align:center;margin-bottom:.5rem">
+    <button class="slideshow-btn" onclick="startSlideshow('gridEnfants')">▶ Diaporama</button>
+  </div>
+
+  <div class="photo-grid" id="gridEnfants">
+
+    <!-- Photo 1 — carrée -->
+    <div class="photo-card" onclick="openLb('photos/enfants/enfants-1.jpg','Eid Mubarak 🎈','gridEnfants')">
+      <div class="pc-cn tl"></div><div class="pc-cn tr"></div><div class="pc-cn bl"></div><div class="pc-cn br"></div>
+      <img src="photos/enfants/enfants-1.jpg" alt="Eid Mubarak" loading="lazy">
+      <div class="photo-caption">Eid Mubarak 🎈</div>
+    </div>
+
+    <!-- Photo 2 — carrée -->
+    <div class="photo-card" onclick="openLb('photos/enfants/enfants-2.jpg','Les enfants 🌙','gridEnfants')">
+      <div class="pc-cn tl"></div><div class="pc-cn tr"></div><div class="pc-cn bl"></div><div class="pc-cn br"></div>
+      <img src="photos/enfants/enfants-2.jpg" alt="Les enfants" loading="lazy">
+      <div class="photo-caption">Les enfants 🌙</div>
+    </div>
+
+    <!-- Photo 3 — paysage (horizontal) -->
+    <div class="photo-card horizontal" onclick="openLb('photos/enfants/enfants-3.jpg','Sourires d\'Eid ✨','gridEnfants')">
+      <div class="pc-cn tl"></div><div class="pc-cn tr"></div><div class="pc-cn bl"></div><div class="pc-cn br"></div>
+      <img src="photos/enfants/enfants-3.jpg" alt="Sourires" loading="lazy">
+      <div class="photo-caption">Sourires d'Eid ✨</div>
+    </div>
+
+    <!-- Photo 4 — portrait (vertical) -->
+    <div class="photo-card vertical" onclick="openLb('photos/enfants/enfants-4.jpg','Dody & Adam 💛','gridEnfants')">
+      <div class="pc-cn tl"></div><div class="pc-cn tr"></div><div class="pc-cn bl"></div><div class="pc-cn br"></div>
+      <img src="photos/enfants/enfants-4.jpg" alt="Dody & Adam" loading="lazy">
+      <div class="photo-caption">Dody & Adam 💛</div>
+    </div>
+
+    <!-- Photo 5 — carrée -->
+    <div class="photo-card" onclick="openLb('photos/enfants/enfants-5.jpg','Joie & bonheur 🌟','gridEnfants')">
+      <div class="pc-cn tl"></div><div class="pc-cn tr"></div><div class="pc-cn bl"></div><div class="pc-cn br"></div>
+      <img src="photos/enfants/enfants-5.jpg" alt="Joie" loading="lazy">
+      <div class="photo-caption">Joie & bonheur 🌟</div>
+    </div>
+
+  </div><!-- /gridEnfants -->
+
+
+  <!-- ══════════════════════════════════════════
+       SECTION FAMILLE — accès restreint
+       Visible uniquement avec EID-FAMILLE-ALADHA
+       📁 photos/famille/
+  ══════════════════════════════════════════ -->
+  <div id="familleSection" style="display:none">
+
+    <div class="orn-sep">
+      <span class="orn-line"></span><span class="orn-star">✦</span>
+      <span class="orn-title">👨‍👩‍👧‍👦 La Famille</span>
+      <span class="orn-star">✦</span><span class="orn-line"></span>
+    </div>
+
+    <!-- Bouton diaporama famille -->
+    <div style="text-align:center;margin-bottom:.5rem">
+      <button class="slideshow-btn" onclick="startSlideshow('gridFamille')">▶ Diaporama</button>
+    </div>
+
+    <div class="photo-grid" id="gridFamille">
+
+      <!-- Photo 1 — paysage -->
+      <div class="photo-card horizontal" onclick="openLb('photos/famille/famille-1.jpg','Notre famille 💛','gridFamille')">
+        <div class="pc-cn tl"></div><div class="pc-cn tr"></div><div class="pc-cn bl"></div><div class="pc-cn br"></div>
+        <img src="photos/famille/famille-1.jpg" alt="Notre famille" loading="lazy">
+        <div class="photo-caption">Notre famille 💛</div>
+      </div>
+
+      <!-- Photo 2 — carrée -->
+      <div class="photo-card" onclick="openLb('photos/famille/famille-2.jpg','Ensemble 🌙','gridFamille')">
+        <div class="pc-cn tl"></div><div class="pc-cn tr"></div><div class="pc-cn bl"></div><div class="pc-cn br"></div>
+        <img src="photos/famille/famille-2.jpg" alt="Ensemble" loading="lazy">
+        <div class="photo-caption">Ensemble 🌙</div>
+      </div>
+
+      <!-- Photo 3 — carrée -->
+      <div class="photo-card" onclick="openLb('photos/famille/famille-3.jpg','Moments précieux ✨','gridFamille')">
+        <div class="pc-cn tl"></div><div class="pc-cn tr"></div><div class="pc-cn bl"></div><div class="pc-cn br"></div>
+        <img src="photos/famille/famille-3.jpg" alt="Moments" loading="lazy">
+        <div class="photo-caption">Moments précieux ✨</div>
+      </div>
+
+      <!-- Photo 4 — portrait -->
+      <div class="photo-card vertical" onclick="openLb('photos/famille/famille-4.jpg','Eid Al-Adha 2026 🌙','gridFamille')">
+        <div class="pc-cn tl"></div><div class="pc-cn tr"></div><div class="pc-cn bl"></div><div class="pc-cn br"></div>
+        <img src="photos/famille/famille-4.jpg" alt="Eid 2026" loading="lazy">
+        <div class="photo-caption">Eid Al-Adha 2026 🌙</div>
+      </div>
+
+      <!-- Photo 5 — carrée -->
+      <div class="photo-card" onclick="openLb('photos/famille/famille-5.jpg','Souvenirs 💫','gridFamille')">
+        <div class="pc-cn tl"></div><div class="pc-cn tr"></div><div class="pc-cn bl"></div><div class="pc-cn br"></div>
+        <img src="photos/famille/famille-5.jpg" alt="Souvenirs" loading="lazy">
+        <div class="photo-caption">Souvenirs 💫</div>
+      </div>
+
+      <!-- Photo 6 — paysage -->
+      <div class="photo-card horizontal" onclick="openLb('photos/famille/famille-6.jpg','Bonheur partagé 🎉','gridFamille')">
+        <div class="pc-cn tl"></div><div class="pc-cn tr"></div><div class="pc-cn bl"></div><div class="pc-cn br"></div>
+        <img src="photos/famille/famille-6.jpg" alt="Bonheur" loading="lazy">
+        <div class="photo-caption">Bonheur partagé 🎉</div>
+      </div>
+
+      <!-- Photo 7 — carrée -->
+      <div class="photo-card" onclick="openLb('photos/famille/famille-7.jpg','Sourires 😊','gridFamille')">
+        <div class="pc-cn tl"></div><div class="pc-cn tr"></div><div class="pc-cn bl"></div><div class="pc-cn br"></div>
+        <img src="photos/famille/famille-7.jpg" alt="Sourires" loading="lazy">
+        <div class="photo-caption">Sourires 😊</div>
+      </div>
+
+      <!-- Photo 8 — carrée -->
+      <div class="photo-card" onclick="openLb('photos/famille/famille-8.jpg','Amour familial 💖','gridFamille')">
+        <div class="pc-cn tl"></div><div class="pc-cn tr"></div><div class="pc-cn bl"></div><div class="pc-cn br"></div>
+        <img src="photos/famille/famille-8.jpg" alt="Amour" loading="lazy">
+        <div class="photo-caption">Amour familial 💖</div>
+      </div>
+
+      <!-- Photo 9 — portrait -->
+      <div class="photo-card vertical" onclick="openLb('photos/famille/famille-9.jpg','Ma famille 🌟','gridFamille')">
+        <div class="pc-cn tl"></div><div class="pc-cn tr"></div><div class="pc-cn bl"></div><div class="pc-cn br"></div>
+        <img src="photos/famille/famille-9.jpg" alt="Ma famille" loading="lazy">
+        <div class="photo-caption">Ma famille 🌟</div>
+      </div>
+
+      <!-- Photo 10 — paysage -->
+      <div class="photo-card horizontal" onclick="openLb('photos/famille/famille-10.jpg','Eid Mubarak à tous 🌙','gridFamille')">
+        <div class="pc-cn tl"></div><div class="pc-cn tr"></div><div class="pc-cn bl"></div><div class="pc-cn br"></div>
+        <img src="photos/famille/famille-10.jpg" alt="Eid Mubarak" loading="lazy">
+        <div class="photo-caption">Eid Mubarak à tous 🌙</div>
+      </div>
+
+    </div><!-- /gridFamille -->
+  </div><!-- /familleSection -->
+
+</div><!-- /page -->
+
+<!-- DIAPORAMA -->
+<div id="slideshow">
+  <button id="ssClose" onclick="stopSlideshow()">✕</button>
+  <img id="ssImg" src="" alt="">
+  <p id="ssCaption"></p>
+  <div id="ssProgress"></div>
+  <button id="ssPause" onclick="togglePause()">⏸ Pause</button>
+</div>
+
+<!-- LIGHTBOX -->
+<div id="lightbox">
+  <button id="lbClose" onclick="closeLb()">✕</button>
+  <button id="lbPrev" onclick="lbNav(-1)">‹</button>
+  <button id="lbNext" onclick="lbNav(1)">›</button>
+  <img id="lbImg" src="" alt="">
+  <p id="lbCaption"></p>
+</div>
+
+<script>
+const GAL = {
+  'EID-PHOTOS-ALADHA':  'photos',
+  'EID-FAMILLE-ALADHA': 'famille',
+};
+
+function findGalCode(input) {
+  const v = input.trim().toUpperCase().replace(/\s+/g,'');
+  if (!v || v.length < 3) return null;
+  const keys = Object.keys(GAL);
+  if (GAL[v]) return v;
+  const s = keys.find(k => k.startsWith(v)); if (s) return s;
+  const c = keys.find(k => k.includes(v));   if (c) return c;
+  const vc = v.replace(/-/g,'');
+  const d = keys.find(k => k.replace(/-/g,'').includes(vc)); if (d) return d;
+  return null;
+}
+
+function checkGalCode() {
+  const raw = document.getElementById('galCode').value;
+  const err = document.getElementById('galErr');
+  const found = findGalCode(raw);
+  if (found) {
+    err.classList.remove('on');
+    openGallery(GAL[found]);
+  } else {
+    err.classList.add('on');
+    const inp = document.getElementById('galCode');
+    inp.style.animation = 'none'; void inp.offsetWidth;
+    inp.style.animation = 'shake .45s ease';
+  }
+}
+
+function openGallery(level) {
+  document.getElementById('lockScreen').classList.remove('on');
+  document.getElementById('galPage').classList.add('on');
+  const badge = document.getElementById('accessBadge');
+  if (level === 'famille') {
+    document.getElementById('familleSection').style.display = 'block';
+    badge.textContent = '🔓 Accès complet — Enfants & Famille';
+  } else {
+    document.getElementById('familleSection').style.display = 'none';
+    badge.textContent = '🔓 Accès photos — Les Enfants';
+  }
+}
+
+window.addEventListener('DOMContentLoaded', () => {
+  const c = new URLSearchParams(window.location.search).get('code');
+  if (c) { const f = findGalCode(c); if (f) { openGallery(GAL[f]); return; } }
+  document.getElementById('lockScreen').classList.add('on');
+});
+
+/* FOND */
+const bgC=document.getElementById('bgCanvas'),bgCtx=bgC.getContext('2d');let stars=[];
+function startBg(){bgC.width=window.innerWidth;bgC.height=window.innerHeight;stars=[];const n=Math.min(Math.floor(bgC.width*bgC.height/3200),300);for(let i=0;i<n;i++)stars.push({x:Math.random()*bgC.width,y:Math.random()*bgC.height*.82,r:Math.random()*1.8+.3,a:Math.random(),da:(Math.random()*.007+.002)*(Math.random()<.5?1:-1),gold:Math.random()<.14});}
+function drawBg(){const w=bgC.width,h=bgC.height,g=bgCtx.createLinearGradient(0,0,0,h);g.addColorStop(0,'#020210');g.addColorStop(.5,'#0b0b17');g.addColorStop(1,'#0d081e');bgCtx.fillStyle=g;bgCtx.fillRect(0,0,w,h);stars.forEach(s=>{s.a+=s.da;if(s.a<=0||s.a>=1)s.da*=-1;s.a=Math.max(0,Math.min(1,s.a));bgCtx.beginPath();bgCtx.arc(s.x,s.y,s.r,0,Math.PI*2);bgCtx.fillStyle=s.gold?`rgba(255,215,0,${s.a})`:`rgba(255,255,255,${s.a*.9})`;bgCtx.fill();});requestAnimationFrame(drawBg);}
+window.addEventListener('resize',startBg);startBg();drawBg();
+
+/* LANTERNES */
+const LC=[{b:'#cc0000',g:'rgba(200,0,0,.35)'},{b:'#FFD700',g:'rgba(255,215,0,.35)'},{b:'#00aa55',g:'rgba(0,170,85,.35)'},{b:'#9933cc',g:'rgba(153,51,204,.35)'}];
+function makeLantern(){const L=document.createElement('div');L.className='lant';const c=LC[Math.floor(Math.random()*LC.length)];const sz=.5+Math.random()*.6,dur=14+Math.random()*18,lft=Math.random()*93,del=Math.random()*-dur;L.style.cssText=`left:${lft}%;animation-duration:${dur}s;animation-delay:${del}s;transform:scale(${sz})`;L.innerHTML=`<div class="ls"></div><div class="lb" style="background:radial-gradient(circle at 30% 30%,${c.b}cc,${c.b} 50%,${c.b}88);box-shadow:0 0 14px ${c.g},0 0 28px ${c.g}"></div>`;document.getElementById('lLayer').appendChild(L);setTimeout(()=>L.remove(),(dur+Math.abs(del))*1000);}
+for(let i=0;i<6;i++)setTimeout(makeLantern,i*500);setInterval(makeLantern,3000);
+
+/* DIAPORAMA */
+let ssImages = [], ssIdx = 0, ssTimer = null, ssPaused = false;
+
+function startSlideshow(gridId) {
+  const grid = document.getElementById(gridId);
+  ssImages = [...grid.querySelectorAll('.photo-card img')].map(img => ({
+    src: img.src,
+    caption: img.closest('.photo-card').querySelector('.photo-caption')?.textContent || ''
+  }));
+  if (!ssImages.length) return;
+  ssIdx = 0; ssPaused = false;
+  document.getElementById('ssPause').textContent = '⏸ Pause';
+  buildDots();
+  showSlide();
+  document.getElementById('slideshow').classList.add('on');
+  ssTimer = setInterval(nextSlide, 3500);
+  document.addEventListener('keydown', ssKey);
+}
+
+function buildDots() {
+  const p = document.getElementById('ssProgress');
+  p.innerHTML = '';
+  ssImages.forEach((_, i) => {
+    const d = document.createElement('div');
+    d.className = 'ss-dot' + (i === 0 ? ' active' : '');
+    d.onclick = () => { ssIdx = i; showSlide(); };
+    p.appendChild(d);
+  });
+}
+
+function showSlide() {
+  const img = document.getElementById('ssImg');
+  img.classList.add('fade');
+  setTimeout(() => {
+    img.src = ssImages[ssIdx].src;
+    document.getElementById('ssCaption').textContent = ssImages[ssIdx].caption;
+    img.classList.remove('fade');
+    document.querySelectorAll('.ss-dot').forEach((d, i) => d.classList.toggle('active', i === ssIdx));
+  }, 250);
+}
+
+function nextSlide() { ssIdx = (ssIdx + 1) % ssImages.length; showSlide(); }
+
+function togglePause() {
+  ssPaused = !ssPaused;
+  document.getElementById('ssPause').textContent = ssPaused ? '▶ Reprendre' : '⏸ Pause';
+  if (ssPaused) { clearInterval(ssTimer); }
+  else { ssTimer = setInterval(nextSlide, 3500); }
+}
+
+function stopSlideshow() {
+  clearInterval(ssTimer); ssImages = [];
+  document.getElementById('slideshow').classList.remove('on');
+  document.getElementById('ssImg').src = '';
+  document.removeEventListener('keydown', ssKey);
+}
+
+function ssKey(e) {
+  if (e.key === 'Escape') stopSlideshow();
+  if (e.key === 'ArrowRight') { nextSlide(); }
+  if (e.key === 'ArrowLeft')  { ssIdx = (ssIdx - 1 + ssImages.length) % ssImages.length; showSlide(); }
+  if (e.key === ' ') togglePause();
+}
+
+
+let lbImages=[],lbIndex=0,lbStartX=0;
+function openLb(src,caption,gridId){
+  const grid=document.getElementById(gridId);
+  lbImages=[...grid.querySelectorAll('.photo-card img')].map(img=>({src:img.src,caption:img.closest('.photo-card').querySelector('.photo-caption')?.textContent||''}));
+  lbIndex=lbImages.findIndex(i=>i.src===src||i.src.endsWith(src));if(lbIndex<0)lbIndex=0;
+  showLbImg();
+  const lb=document.getElementById('lightbox');lb.classList.add('on');
+  lb.addEventListener('touchstart',e=>{lbStartX=e.touches[0].clientX;},{passive:true});
+  lb.addEventListener('touchend',e=>{const dx=e.changedTouches[0].clientX-lbStartX;if(Math.abs(dx)>50)lbNav(dx<0?1:-1);else if(Math.abs(dx)<10)closeLb();},{passive:true});
+  document.addEventListener('keydown',lbKey);
+}
+function showLbImg(){const it=lbImages[lbIndex];document.getElementById('lbImg').src=it.src;document.getElementById('lbCaption').textContent=it.caption;const s=lbImages.length>1;document.getElementById('lbPrev').style.display=s?'flex':'none';document.getElementById('lbNext').style.display=s?'flex':'none';}
+function lbNav(d){lbIndex=(lbIndex+d+lbImages.length)%lbImages.length;showLbImg();}
+function closeLb(){document.getElementById('lightbox').classList.remove('on');document.getElementById('lbImg').src='';document.removeEventListener('keydown',lbKey);lbImages=[];}
+function lbKey(e){if(e.key==='Escape')closeLb();if(e.key==='ArrowLeft')lbNav(-1);if(e.key==='ArrowRight')lbNav(1);}
+document.getElementById('lightbox').addEventListener('click',function(e){if(e.target===this||e.target===document.getElementById('lbImg'))closeLb();});
+</script>
+</body>
+</html>

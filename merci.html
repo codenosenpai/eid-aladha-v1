@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#0b0b17">
+<title>🌙 Merci — Eid Al-Adha</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Amiri:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+:root{--gold:#FFD700;--gold-light:#FFF0A0;--gold-dark:#B8960C;--dark:#0b0b17;}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{font-size:16px;scroll-behavior:smooth;}
+body{background:var(--dark);color:#fff;font-family:'Cormorant Garamond',serif;min-height:100vh;overflow-x:hidden;-webkit-font-smoothing:antialiased;}
+
+#bgCanvas{position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events:none;}
+#lLayer{position:fixed;inset:0;overflow:hidden;z-index:1;pointer-events:none;}
+
+.lant{position:absolute;top:-90px;animation:lFloat linear infinite;}
+.ls{position:absolute;top:-22px;left:50%;transform:translateX(-50%);width:1px;height:22px;background:rgba(255,215,0,.32);}
+.lb{width:21px;height:36px;border-radius:50% 50% 42% 42%;animation:lGlow 3s ease-in-out infinite alternate;position:relative;}
+.lb::before{content:'';position:absolute;top:-7px;left:50%;transform:translateX(-50%);width:11px;height:7px;border-radius:4px 4px 0 0;background:rgba(255,215,0,.45);}
+@keyframes lFloat{0%{transform:translateY(calc(100vh + 90px));opacity:0}5%,95%{opacity:.85}100%{transform:translateY(-160px);opacity:0}}
+@keyframes lGlow{0%{opacity:.7}100%{opacity:1}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:translateY(0)}}
+@keyframes twinkle{0%,100%{opacity:1}50%{opacity:.15}}
+@keyframes glow{0%,100%{box-shadow:0 0 12px rgba(255,215,0,.2)}50%{box-shadow:0 0 32px rgba(255,215,0,.55),0 0 60px rgba(255,215,0,.15)}}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+
+.page{position:relative;z-index:10;max-width:680px;margin:0 auto;padding:6vh 1.4rem 14vh;text-align:center;}
+
+/* ── Croissant ── */
+.hero-moon {
+  width: 80px; height: 80px; border-radius: 50%;
+  background: transparent;
+  box-shadow: inset -18px 4px 0 4px #FFD700;
+  filter: drop-shadow(0 0 18px rgba(255,215,0,.55));
+  margin: 0 auto 1.8rem;
+  animation: float 4s ease-in-out infinite;
+}
+
+.ar-title{
+  font-family:'Amiri',serif;direction:rtl;
+  font-size:clamp(1.1rem,4vw,1.6rem);
+  color:rgba(255,215,0,.7);
+  margin-bottom:.6rem;
+  animation:fadeUp .6s ease both;
+}
+.main-title{
+  font-family:'Cinzel Decorative',cursive;font-weight:900;
+  font-size:clamp(1.6rem,6vw,3rem);line-height:1.1;
+  background:linear-gradient(135deg,#B8960C,#FFD700,#FFF0A0,#FFD700,#B8960C);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+  filter:drop-shadow(0 2px 10px rgba(255,215,0,.35));
+  animation:fadeUp .6s .1s ease both;
+}
+.sub-title{
+  font-size:clamp(.85rem,2.5vw,1.05rem);
+  color:rgba(255,255,255,.35);font-style:italic;
+  letter-spacing:.06em;margin-top:.5rem;
+  animation:fadeUp .6s .2s ease both;
+}
+
+.orn{display:flex;align-items:center;gap:.8rem;margin:2rem 0;}
+.orn-line{flex:1;height:1px;background:linear-gradient(to right,transparent,rgba(255,215,0,.35),transparent);}
+.orn-star{color:var(--gold);font-size:.8rem;animation:twinkle 2.2s ease-in-out infinite;}
+
+.msg-box{
+  background:rgba(255,215,0,.03);
+  border:1px solid rgba(255,215,0,.18);border-radius:18px;
+  padding:2rem 1.6rem;
+  animation:fadeUp .7s .3s ease both;
+  position:relative;overflow:hidden;
+}
+.msg-box::before{
+  content:'';position:absolute;inset:0;pointer-events:none;
+  background:repeating-linear-gradient(45deg,transparent,transparent 20px,rgba(255,215,0,.012) 20px,rgba(255,215,0,.012) 22px);
+}
+.msg-cn{position:absolute;width:20px;height:20px;border-color:rgba(255,215,0,.4);border-style:solid;}
+.msg-cn.tl{top:-1px;left:-1px;border-width:2px 0 0 2px;border-radius:4px 0 0 0;}
+.msg-cn.tr{top:-1px;right:-1px;border-width:2px 2px 0 0;border-radius:0 4px 0 0;}
+.msg-cn.bl{bottom:-1px;left:-1px;border-width:0 0 2px 2px;border-radius:0 0 0 4px;}
+.msg-cn.br{bottom:-1px;right:-1px;border-width:0 2px 2px 0;border-radius:0 0 4px 0;}
+
+.msg-text{
+  font-size:clamp(.95rem,2.5vw,1.15rem);
+  line-height:2; color:rgba(255,255,255,.82);
+  font-weight:300;
+}
+.msg-ar{
+  font-family:'Amiri',serif;direction:rtl;
+  font-size:clamp(1rem,3vw,1.3rem);
+  color:rgba(255,215,0,.65);line-height:2.2;
+  margin-top:1.2rem;
+}
+
+.sig-wrap{margin-top:1.6rem;animation:fadeUp .7s .5s ease both;}
+.sig-from{font-size:.62rem;color:rgba(255,215,0,.3);letter-spacing:.2em;text-transform:uppercase;margin-bottom:.5rem;}
+#sigCanvas{display:block;margin:0 auto;filter:drop-shadow(0 0 10px rgba(255,215,0,.45));}
+
+.badge-wrap{margin-top:2rem;animation:fadeUp .7s .6s ease both;}
+.badge{
+  display:inline-block;padding:.55rem 1.8rem;
+  border:1px solid rgba(255,215,0,.3);border-radius:40px;
+  font-family:'Cinzel Decorative',cursive;font-size:clamp(.7rem,2vw,.9rem);
+  color:var(--gold);animation:glow 3s ease-in-out infinite;
+}
+
+.share-section{margin-top:2.4rem;animation:fadeUp .7s .7s ease both;}
+.share-lbl{font-size:.68rem;color:rgba(255,255,255,.28);letter-spacing:.14em;text-transform:uppercase;margin-bottom:.9rem;}
+.share-btns{display:flex;gap:.8rem;justify-content:center;flex-wrap:wrap;}
+.share-btn{
+  display:inline-flex;align-items:center;gap:.5rem;
+  padding:.65rem 1.3rem;border-radius:24px;
+  font-family:'Cinzel Decorative',cursive;font-size:.62rem;
+  letter-spacing:.1em;cursor:pointer;min-height:48px;
+  text-decoration:none;border:none;
+  transition:transform .2s,box-shadow .2s;
+}
+.share-btn:active{transform:scale(.96);}
+.btn-wa{background:#25D366;color:#fff;}
+.btn-wa:hover{box-shadow:0 4px 18px rgba(37,211,102,.4);}
+.btn-copy{background:rgba(255,215,0,.1);border:1px solid rgba(255,215,0,.3);color:var(--gold);}
+.btn-copy:hover{background:rgba(255,215,0,.18);box-shadow:0 4px 18px rgba(255,215,0,.2);}
+
+#mosque{position:fixed;bottom:0;left:0;right:0;height:clamp(70px,15vh,130px);z-index:1;pointer-events:none;overflow:hidden;}
+.msq-svg{width:100%;height:100%;fill:#05050f;filter:drop-shadow(0 -3px 12px rgba(255,215,0,.1));}
+</style>
+</head>
+<body>
+
+<canvas id="bgCanvas"></canvas>
+<div id="lLayer"></div>
+<div id="mosque">
+  <svg class="msq-svg" viewBox="0 0 1440 200" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMax slice">
+    <rect x="0" y="172" width="1440" height="28" fill="#05050f"/>
+    <rect x="72" y="72" width="22" height="100" fill="#05050f"/>
+    <polygon points="72,72 83,38 94,72" fill="#05050f"/>
+    <circle cx="83" cy="37" r="6.5" fill="#05050f"/>
+    <rect x="1346" y="72" width="22" height="100" fill="#05050f"/>
+    <polygon points="1346,72 1357,38 1368,72" fill="#05050f"/>
+    <circle cx="1357" cy="37" r="6.5" fill="#05050f"/>
+    <rect x="192" y="110" width="1056" height="62" fill="#05050f"/>
+    <path d="M192,118 Q300,84 408,118" fill="#05050f"/>
+    <rect x="192" y="118" width="216" height="54" fill="#05050f"/>
+    <path d="M1032,118 Q1140,84 1248,118" fill="#05050f"/>
+    <rect x="1032" y="118" width="216" height="54" fill="#05050f"/>
+    <ellipse cx="720" cy="72" rx="168" ry="85" fill="#05050f"/>
+    <rect x="552" y="72" width="336" height="100" fill="#05050f"/>
+    <path d="M705,17 Q720,2 735,17 Q720,10 705,17Z" fill="#FFD700" opacity=".92"/>
+    <ellipse cx="448" cy="100" rx="84" ry="53" fill="#05050f"/>
+    <rect x="364" y="100" width="168" height="72" fill="#05050f"/>
+    <ellipse cx="992" cy="100" rx="84" ry="53" fill="#05050f"/>
+    <rect x="908" y="100" width="168" height="72" fill="#05050f"/>
+    <circle cx="720" cy="10" r="2.5" fill="#FFD700"><animate attributeName="opacity" values="1;.25;1" dur="3s" repeatCount="indefinite"/></circle>
+  </svg>
+</div>
+
+<div class="page">
+  <div class="hero-moon"></div>
+
+  <p class="ar-title">جزاكم الله خيرًا 🌙</p>
+  <h1 class="main-title">Merci à tous</h1>
+  <p class="sub-title">Eid Al-Adha 2026 — Des souvenirs plein le cœur</p>
+
+  <div class="orn">
+    <span class="orn-line"></span><span class="orn-star">✦</span>
+    <span style="font-family:'Cinzel Decorative',cursive;font-size:.72rem;color:rgba(255,215,0,.45);letter-spacing:.15em;">رسالة شكر</span>
+    <span class="orn-star">✦</span><span class="orn-line"></span>
+  </div>
+
+  <div class="msg-box">
+    <div class="msg-cn tl"></div><div class="msg-cn tr"></div>
+    <div class="msg-cn bl"></div><div class="msg-cn br"></div>
+    <p class="msg-text">
+      Cette fête de l'Aïd Al-Adha était quelque chose de vraiment spécial pour moi.<br><br>
+      J'espère que mes petits messages vous ont fait sourire et que vous avez passé une belle journée d'Aïd entourés de vos proches.<br><br>
+      Merci d'être dans ma vie et de rendre chaque moment plus précieux.<br><br>
+      Qu'Allah vous bénisse, vous protège et vous accorde santé, bonheur et réussite.
+    </p>
+    <p class="msg-ar">
+      اللهم تقبل منا ومنكم وتقبل أضاحينا 🤲
+    </p>
+  </div>
+
+  <div class="sig-wrap">
+    <p class="sig-from">Avec tout mon amour,</p>
+    <canvas id="sigCanvas" width="200" height="65"></canvas>
+  </div>
+
+  <div class="badge-wrap">
+    <div class="badge">🌙 عيد مبارك سعيد — كل عام وأنتم بخير 🌙</div>
+  </div>
+
+  <div class="share-section">
+    <p class="share-lbl">✦ Partager cette page ✦</p>
+    <div class="share-btns">
+      <a class="share-btn btn-wa" id="waBtn" href="#" target="_blank">
+        💬 Envoyer sur WhatsApp
+      </a>
+      <button class="share-btn btn-copy" onclick="copyLink()">
+        🔗 Copier le lien
+      </button>
+    </div>
+  </div>
+</div>
+
+<script>
+/* FOND ÉTOILÉ */
+const bgC=document.getElementById('bgCanvas'),bgCtx=bgC.getContext('2d');let stars=[];
+function startBg(){bgC.width=window.innerWidth;bgC.height=window.innerHeight;stars=[];const n=Math.min(Math.floor(bgC.width*bgC.height/3200),300);for(let i=0;i<n;i++)stars.push({x:Math.random()*bgC.width,y:Math.random()*bgC.height*.82,r:Math.random()*1.8+.3,a:Math.random(),da:(Math.random()*.007+.002)*(Math.random()<.5?1:-1),gold:Math.random()<.14});}
+function drawBg(){const w=bgC.width,h=bgC.height,g=bgCtx.createLinearGradient(0,0,0,h);g.addColorStop(0,'#020210');g.addColorStop(.5,'#0b0b17');g.addColorStop(1,'#0d081e');bgCtx.fillStyle=g;bgCtx.fillRect(0,0,w,h);stars.forEach(s=>{s.a+=s.da;if(s.a<=0||s.a>=1)s.da*=-1;s.a=Math.max(0,Math.min(1,s.a));bgCtx.beginPath();bgCtx.arc(s.x,s.y,s.r,0,Math.PI*2);bgCtx.fillStyle=s.gold?`rgba(255,215,0,${s.a})`:`rgba(255,255,255,${s.a*.9})`;bgCtx.fill();});requestAnimationFrame(drawBg);}
+window.addEventListener('resize',startBg);startBg();drawBg();
+
+/* LANTERNES */
+const LC=[{b:'#cc0000',g:'rgba(200,0,0,.35)'},{b:'#FFD700',g:'rgba(255,215,0,.35)'},{b:'#00aa55',g:'rgba(0,170,85,.35)'},{b:'#9933cc',g:'rgba(153,51,204,.35)'}];
+function makeLantern(){const L=document.createElement('div');L.className='lant';const c=LC[Math.floor(Math.random()*LC.length)];const sz=.5+Math.random()*.6,dur=14+Math.random()*18,lft=Math.random()*93,del=Math.random()*-dur;L.style.cssText=`left:${lft}%;animation-duration:${dur}s;animation-delay:${del}s;transform:scale(${sz})`;L.innerHTML=`<div class="ls"></div><div class="lb" style="background:radial-gradient(circle at 30% 30%,${c.b}cc,${c.b} 50%,${c.b}88);box-shadow:0 0 14px ${c.g},0 0 28px ${c.g}"></div>`;document.getElementById('lLayer').appendChild(L);setTimeout(()=>L.remove(),(dur+Math.abs(del))*1000);}
+for(let i=0;i<5;i++)setTimeout(makeLantern,i*600);setInterval(makeLantern,3500);
+
+/* SIGNATURE */
+function drawSignature(canvas) {
+  const ctx = canvas.getContext('2d');
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  ctx.strokeStyle = '#FFD700';
+  ctx.lineWidth = 2.4;
+  ctx.lineCap = 'round';
+  ctx.lineJoin = 'round';
+  const strokes = [
+    [[18,18],[18,50],[18,34],[30,31],[32,37],[30,44],[18,44]],
+    [[42,28],[42,50],[42,22]],
+    [[54,18],[54,50]],
+    [[72,32],[64,37],[64,46],[72,48],[78,43],[78,32],[78,50]],
+    [[88,18],[88,50]],
+  ];
+  let si = 0, pi = 0;
+  function step() {
+    if (si >= strokes.length) return;
+    const pts = strokes[si];
+    if (pi === 0) { ctx.beginPath(); ctx.moveTo(pts[0][0], pts[0][1]); }
+    else { ctx.lineTo(pts[pi][0], pts[pi][1]); ctx.stroke(); ctx.beginPath(); ctx.moveTo(pts[pi][0], pts[pi][1]); }
+    pi++;
+    if (pi >= pts.length) { si++; pi = 0; }
+    setTimeout(step, 18);
+  }
+  step();
+}
+
+window.addEventListener('DOMContentLoaded', () => {
+  setTimeout(() => drawSignature(document.getElementById('sigCanvas')), 800);
+
+  // WhatsApp
+  const url = encodeURIComponent(window.location.href);
+  const txt = encodeURIComponent('🌙 Eid Mubarak ! Merci d\'avoir partagé cette fête avec moi 💛');
+  document.getElementById('waBtn').href = `https://wa.me/?text=${txt}%20${url}`;
+});
+
+function copyLink() {
+  navigator.clipboard.writeText(window.location.href).then(() => {
+    const btn = document.querySelector('.btn-copy');
+    btn.textContent = '✅ Copié !';
+    setTimeout(() => btn.textContent = '🔗 Copier le lien', 2000);
+  });
+}
+</script>
+</body>
+</html>
